@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<body>
+<img id="img" src="logo.png" />
+<canvas id="cvs"></canvas>
+<script>
+window.onload = function() {
+    var img = document.getElementById('img');
+    var w = img.naturalWidth;
+    var h = img.naturalHeight;
+
+    var cvs = document.getElementById('cvs');
+    cvs.width = w;
+    cvs.height = h;
+    var ctx = cvs.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    var imgData = ctx.getImageData(0, 0, w, h);
+    var data = imgData.data;
+
+    // Detect background color from corners
+    var bgR = data[0], bgG = data[1], bgB = data[2];
+
+    // Create transparent version with Gold Emblem
+    // First, let's create a canvas for the Gold version
+    var goldCvs = document.createElement('canvas');
+    goldCvs.width = w;
+    goldCvs.height = h;
+    var gCtx = goldCvs.getContext('2d');
+
+    // Create linear gradient for gold
+    var grad = gCtx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, '#FFFBE6');
+    grad.addColorStop(0.3, '#F5D061');
+    grad.addColorStop(0.7, '#D4AF37');
+    grad.addColorStop(1, '#997300');
+
+    // Process mask: calculate distance from background color
+    var maskData = gCtx.createImageData(w, h);
+    var mData = maskData.data;
+
+    for (var i = 0; i < data.length; i += 4) {
+        var r = data[i], g = data[i+1], b = data[i+2], a = data[i+3];
+        // Calculate difference from background (deep blue ~ 9, 1, 172)
+        var diff = Math.sqrt((r - bgR)*(r - bgR) + (g - bgG)*(g - bgG) + (b - bgB)*(b - bgB));
+        
+        // Also check if brightness is significantly higher than dark blue
+        var brightness = (r * 0.299 + g * 0.587 + b * 0.114);
+        var bgBrightness = (bgR * 0.299 + bgG * 0.587 + bgB * 0.114);
+        var bDiff = brightness - bgBrightness;
+
+        var alpha = 0;
+        if (diff > 45 || bDiff > 25) {
+            // Smooth edge transition (anti-aliasing)
+            alpha = Math.min(255, Math.max(0, (diff - 30) * 4));
+        }
+
+        mData[i] = 255;
+        mData[i+1] = 255;
+        mData[i+2] = 255;
+        mData[i+3] = alpha;
+    }
+
+    // Draw the gold gradient filled on goldCvs
+    gCtx.fillStyle = grad;
+    gCtx.fillRect(0, 0, w, h);
+
+    // Apply the mask using destination-in
+    var tempCvs = document.createElement('canvas');
+    tempCvs.width = w;
+    tempCvs.height = h;
+    var tCtx = tempCvs.getContext('2d');
+    tCtx.putImageData(maskData, 0, 0);
+
+    gCtx.globalCompositeOperation = 'destination-in';
+    gCtx.drawImage(tempCvs, 0, 0);
+
+    // Add subtle gold glow
+    var finalCvs = document.createElement('canvas');
+    finalCvs.width = w;
+    finalCvs.height = h;
+    var fCtx = finalCvs.getContext('2d');
+    fCtx.shadowColor = 'rgba(212, 175, 55, 0.6)';
+    fCtx.shadowBlur = 8;
+    fCtx.drawImage(goldCvs, 0, 0);
+
+    var goldPng = finalCvs.toDataURL('image/png');
+
+    // Also create a pure clean white/platinum version
+    var whiteCvs = document.createElement('canvas');
+    whiteCvs.width = w;
+    whiteCvs.height = h;
+    var wCtx = whiteCvs.getContext('2d');
+    wCtx.fillStyle = '#FFFFFF';
+    wCtx.fillRect(0, 0, w, h);
+    wCtx.globalCompositeOperation = 'destination-in';
+    wCtx.drawImage(tempCvs, 0, 0);
+    var whitePng = whiteCvs.toDataURL('image/png');
+
+    var p = document.createElement('p');
+    p.id = "result";
+    p.innerText = goldPng + ":::" + whitePng;
+    document.body.appendChild(p);
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+<img id="img" src="logo.avif" />
+<canvas id="cvs"></canvas>
+<script>
+window.onload = function() {
+    var img = document.getElementById('img');
+    var cvs = document.getElementById('cvs');
+    cvs.width = img.naturalWidth || img.width;
+    cvs.height = img.naturalHeight || img.height;
+    var ctx = cvs.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    var data = cvs.toDataURL('image/png');
+    var p = document.createElement('p');
+    p.id = "done";
+    p.innerText = img.naturalWidth + 'x' + img.naturalHeight + ':::' + data;
+    document.body.appendChild(p);
+};
+</script>
+</body>
+</html>

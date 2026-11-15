@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شركة الراجحي للبناء والتعمير | Al Rajhi Building & Construction</title>
+    
+    <!-- Meta tags for high-end corporate presentation -->
+    <meta name="description" content="البوابة الرقمية الرسمية الفاخرة لشركة الراجحي للبناء والتعمير - ريادة تجارة وصناعة الحديد والاستانلس ستيل في المملكة العربية السعودية منذ 1412 هـ (1991م).">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            950: '#040609',
+                            900: '#070a0f',
+                            850: '#0b1017',
+                            800: '#101622',
+                            700: '#172030',
+                            600: '#222f46'
+                        },
+                        gold: {
+                            300: '#fae392',
+                            400: '#f5d061',
+                            500: '#d4af37',
+                            600: '#b89025',
+                            700: '#8e6b12'
+                        },
+                        steel: {
+                            100: '#f1f5f9',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            cyan: '#38bdf8'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace', 'Courier New']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts: Cairo & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Three.js (3D WebGL Library) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #040609;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFFDF0 0%, #F5D061 35%, #D4AF37 70%, #997300 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .steel-gradient-text {
+            background: linear-gradient(135deg, #FFFFFF 0%, #CBD5E1 50%, #38BDF8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-panel {
+            background: rgba(11, 16, 23, 0.72);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.65);
+        }
+
+        .glass-panel-hover {
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-panel-hover:hover {
+            border-color: rgba(212, 175, 55, 0.35);
+            box-shadow: 0 30px 70px -10px rgba(212, 175, 55, 0.12);
+            transform: translateY(-3px);
+        }
+
+        /* 3D Canvas Canvas */
+        #hero-3d-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: auto;
+            cursor: grab;
+        }
+        #hero-3d-canvas:active {
+            cursor: grabbing;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #040609;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #172030;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+
+        /* Animated grid background */
+        .grid-pattern {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+
+        /* Page view transitions */
+        .page-view {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .page-view.active {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="selection:bg-gold-500 selection:text-black grid-pattern">
+
+    <!-- FLOATING PITCH WEAPON BAR (أداة إقناع العميل) -->
+    <aside class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
+        <button onclick="togglePitchModal()" class="group relative px-5 py-3 rounded-full bg-gradient-to-r from-gold-500 to-amber-600 text-black font-extrabold text-xs shadow-2xl shadow-gold-500/40 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border border-white/20">
+            <span class="w-2.5 h-2.5 rounded-full bg-black animate-ping"></span>
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>أداة الإقناع: مقارنة مع الموقع القديم</span>
+        </button>
+    </aside>
+
+    <!-- TOP EXECUTIVE UTILITY BAR -->
+    <div class="relative z-50 border-b border-white/5 bg-dark-950/90 text-[11px] text-slate-400 py-2.5 px-4 md:px-12 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-5">
+                <span class="flex items-center gap-1.5 text-slate-300 font-medium">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-gold-400"></i>
+                    تأسست في 12-06-1412 هـ (1991م) | المقاولات • الصناعة • التجارة
+                </span>
+                <span class="hidden md:inline-flex items-center gap-1.5 text-slate-400">
+                    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    مطابق للهيئة السعودية للمواصفات والمقاييس والجودة (ساسو SASO)
+                </span>
+            </div>
+            
+            <div class="flex items-center gap-4 text-slate-300">
+                <a href="tel:00966112985860" class="flex items-center gap-1.5 hover:text-gold-400 transition-colors">
+                    <i data-lucide="phone" class="w-3.5 h-3.5 text-gold-400"></i>
+                    <span dir="ltr">011 298 5860 (111/105)</span>
+                </a>
+                <span class="text-white/10">|</span>
+                <a href="https://wa.me/966572465506" target="_blank" class="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors font-medium">
+                    <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                    <span>واتساب المبيعات: 0572465506</span>
+                </a>
+                <span class="text-white/10">|</span>
+                <div class="flex items-center gap-1 bg-dark-800 px-2 py-0.5 rounded border border-white/10 text-[10px]">
+                    <span class="text-gold-400 font-bold">العربية</span>
+                    <span class="text-slate-500">/</span>
+                    <span class="text-slate-400 cursor-pointer hover:text-white" onclick="alert('النسخة الإنجليزية مدمجة ومجهزة بالكامل وفق نفس البيانات الأصلية!')">English</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN LUXURY NAVIGATION HEADER -->
+    <header class="sticky top-0 z-40 bg-dark-950/85 backdrop-blur-xl border-b border-white/5 transition-all">
+        <div class="max-w-7xl mx-auto px-4 md:px-12 py-3.5 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="javascript:void(0)" onclick="navigateTo('home')" class="flex items-center gap-3.5 group">
+                <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-dark-850 via-dark-900 to-dark-950 border border-gold-500/40 p-2 shadow-xl shadow-gold-500/15 group-hover:border-gold-400 group-hover:scale-105 transition-all duration-300 flex items-center justify-center">
+                    <img src="logo.png" alt="شركة الراجحي للبناء والتعمير" class="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(212,175,55,0.45)] group-hover:brightness-110 transition-all duration-300" />
+                </div>
+                <div>
+                    <div class="text-lg md:text-xl font-black tracking-tight text-white flex items-center gap-2">
+                        <span>شركة الراجحي</span>
+                        <span class="text-gold-400 font-semibold text-sm">للبناء والتعمير</span>
+                    </div>
+                    <p class="text-[9px] tracking-widest text-slate-400 font-mono">AL RAJHI BUILDING & CONSTRUCTION CO.</p>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Menu -->
+            <nav class="hidden lg:flex items-center gap-7 text-xs font-semibold text-slate-300">
+                <button onclick="navigateTo('home')" class="nav-link py-1 hover:text-gold-400 transition-colors text-gold-400" data-page="home">الرئيسية</button>
+                <button onclick="navigateTo('about')" class="nav-link py-1 hover:text-gold-400 transition-colors" data-page="about">نبذة عن الشركة</button>
+                
+                <!-- Products Dropdown Link -->
+                <div class="relative group">
+                    <button onclick="navigateTo('products')" class="nav-link py-1 hover:text-gold-400 transition-colors flex items-center gap-1.5" data-page="products">
+                        <span>المنتجات والمصانع</span>
+                        <span class="px-1.5 py-0.2 bg-gold-500/15 text-gold-400 text-[10px] rounded font-mono border border-gold-500/30">3D</span>
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform"></i>
+                    </button>
+                    <!-- Mega Dropdown Preview -->
+                    <div class="absolute right-0 top-full pt-3 hidden group-hover:block w-72 z-50">
+                        <div class="glass-panel rounded-2xl p-3 border border-white/10 space-y-1 shadow-2xl">
+                            <a href="javascript:void(0)" onclick="navigateTo('products', 'steel')" class="block p-2 rounded-xl hover:bg-white/5 text-xs text-slate-200 hover:text-gold-400">حديد تجاري وتسليح (7-40 مم)</a>
+                            <a href="javascript:void(0)" onclick="navigateTo('products', 'stainless')" class="block p-2 rounded-xl hover:bg-white/5 text-xs text-slate-200 hover:text-gold-400">الاستانلس ستيل (201 / 304 / 316)</a>
+                            <a href="javascript:void(0)" onclick="navigateTo('products', 'steel')" class="block p-2 rounded-xl hover:bg-white/5 text-xs text-slate-200 hover:text-gold-400">مصنع إنتاج تيوبات ومواسير</a>
+                            <a href="javascript:void(0)" onclick="navigateTo('products', 'shinko')" class="block p-2 rounded-xl hover:bg-white/5 text-xs text-slate-200 hover:text-gold-400">شينكو ساسو ومصنع تطعيج شينكو</a>
+                            <a href="javascript:void(0)" onclick="navigateTo('products', 'steel')" class="block p-2 rounded-xl hover:bg-white/5 text-xs text-slate-200 hover:text-gold-400">جسور وكَمَرات وصاج ومبسطات</a>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="navigateTo('branches')" class="nav-link py-1 hover:text-gold-400 transition-colors flex items-center gap-1" data-page="branches">
+                    <span>فروعنا بالمملكة</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-gold-400 text-[11px] font-mono">(33 فرع)</span>
+                </button>
+
+                <button onclick="navigateTo('calculator')" class="nav-link py-1 hover:text-gold-400 transition-colors flex items-center gap-1" data-page="calculator">
+                    <i data-lucide="calculator" class="w-3.5 h-3.5 text-sky-400"></i>
+                    <span>حاسبة أوزان الحديد</span>
+                </button>
+
+                <button onclick="navigateTo('leadership')" class="nav-link py-1 hover:text-gold-400 transition-colors" data-page="leadership">كلمة الإدارة</button>
+                <button onclick="navigateTo('contact')" class="nav-link py-1 hover:text-gold-400 transition-colors" data-page="contact">تواصل معنا</button>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <button onclick="openRfqModal()" class="relative group overflow-hidden px-4 md:px-5 py-2.5 rounded-xl bg-gradient-to-r from-gold-500 via-amber-500 to-gold-600 text-black font-extrabold text-xs shadow-xl shadow-gold-500/20 hover:shadow-gold-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                    <span>طلب تسعيرة توريد</span>
+                </button>
+
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg bg-dark-800 text-slate-300 hover:text-white">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden border-t border-white/5 bg-dark-950/98 px-6 py-4 space-y-2 text-xs font-semibold">
+            <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-right py-2.5 text-slate-200 border-b border-white/5">الرئيسية</button>
+            <button onclick="navigateTo('about'); toggleMobileMenu()" class="block w-full text-right py-2.5 text-slate-200 border-b border-white/5">نبذة عن الشركة</button>
+            <button onclick="navigateTo('products'); toggleMobileMenu()" class="block w-full text-right py-2.5 text-slate-200 border-b border-white/5">المنتجات والمصانع (3D)</button>
+            <button onclick="navigateTo('branches'); toggleMobileMenu()" class="block w-full text-right py-2.5 text-slate-200 border-b border-white/5">فروعنا الـ 33 بالمملكة</button>
+            <button onclick="navigateTo('calculator'); toggleMobileMenu()" class="block w-full text-right py-2.5 text-slate-200 border-b border-white/5">حاسبة أوزان الحديد</button>
+            <button onclick="navigateTo('leadership'); toggleMobileMenu()" class="block w-full text-right py-2.5 text-slate-200 border-b border-white/5">كلمة القيادة</button>
+            <button onclick="navigateTo('contact'); toggleMobileMenu()" class="block w-full text-right py-2.5 text-slate-200">تواصل معنا</button>
+        </div>
+    </header>
+
+    <!-- MAIN ROUTER CONTAINER: ALL PAGES LIVE IN ONE PLACE -->
+    <main id="main-content" class="min-h-screen">
+        
+        <!-- 1. HOME PAGE VIEW -->
+        <div id="view-home" class="page-view active">
+            
+            <!-- Hero Section with 3D Canvas -->
+            <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-8 pb-20">
+                <canvas id="hero-3d-canvas"></canvas>
+
+                <div class="absolute top-1/4 left-1/4 w-[450px] h-[450px] bg-gold-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-sky-600/10 rounded-full blur-[160px] pointer-events-none"></div>
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#040609_82%)] pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    
+                    <div class="lg:col-span-7 space-y-7 text-center lg:text-right">
+                        
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-dark-900/90 border border-gold-500/30 text-gold-400 text-xs font-semibold shadow-inner backdrop-blur-md">
+                            <span class="w-2 h-2 rounded-full bg-gold-400 animate-ping"></span>
+                            <span>الريادة الأولى في صناعة وتجارة الحديد والاستانلس ستيل بالمملكة</span>
+                        </div>
+
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.18] tracking-tight">
+                            صرح البناء الوطني <br>
+                            <span class="gold-gradient-text">بأعلى معايير الصلابة والفخامة</span>
+                        </h1>
+
+                        <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                            شركة الراجحي للبناء والتعمير إحدى الشركات الرائدة والأولى في المملكة العربية السعودية منذ عام <strong class="text-gold-400">1412 هـ (1991م)</strong>. نلبي كبرى المشاريع الإنشائية والصناعية عبر شبكة عملاقة تضم <strong class="text-white underline decoration-gold-500">33 فرعاً ومصنعاً ومستودعاً</strong> تنتشر في كافة مناطق المملكة.
+                        </p>
+
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <button onclick="navigateTo('products')" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-gold-500 to-amber-600 text-black font-extrabold text-sm shadow-xl shadow-gold-500/25 hover:scale-105 active:scale-95 transition-all flex items-center gap-2.5">
+                                <i data-lucide="layers" class="w-4 h-4"></i>
+                                <span>استعراض الكتالوج 3D</span>
+                            </button>
+                            
+                            <button onclick="navigateTo('branches')" class="px-7 py-3.5 rounded-xl glass-panel hover:bg-dark-800 border border-white/10 hover:border-gold-500/40 text-white font-bold text-sm transition-all flex items-center gap-2.5">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-gold-400"></i>
+                                <span>دليل الـ 33 فرعاً</span>
+                            </button>
+
+                            <button onclick="navigateTo('calculator')" class="px-5 py-3.5 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-sky-400 font-bold text-sm transition-all flex items-center gap-2">
+                                <i data-lucide="calculator" class="w-4 h-4"></i>
+                                <span>حاسبة الأوزان</span>
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/10 max-w-2xl mx-auto lg:mx-0">
+                            <div class="p-2 text-center lg:text-right">
+                                <div class="text-2xl lg:text-3xl font-black text-white font-mono">+35</div>
+                                <div class="text-[11px] text-slate-400 mt-1">عاماً من العطاء (1412هـ)</div>
+                            </div>
+                            <div class="p-2 text-center lg:text-right">
+                                <div class="text-2xl lg:text-3xl font-black text-gold-400 font-mono">33</div>
+                                <div class="text-[11px] text-slate-400 mt-1">فرعاً ومستودعاً ومصنعاً</div>
+                            </div>
+                            <div class="p-2 text-center lg:text-right">
+                                <div class="text-2xl lg:text-3xl font-black text-white font-mono">SASO</div>
+                                <div class="text-[11px] text-slate-400 mt-1">مطابق لمواصفات ساسو</div>
+                            </div>
+                            <div class="p-2 text-center lg:text-right">
+                                <div class="text-2xl lg:text-3xl font-black text-sky-400 font-mono">100%</div>
+                                <div class="text-[11px] text-slate-400 mt-1">تغطية لكافة مناطق المملكة</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="w-full max-w-md glass-panel rounded-3xl p-6 sm:p-7 space-y-5 border border-white/10">
+                            
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="text-xs font-mono text-emerald-400 font-bold">محاكي القطاعات 3D التفاعلي</span>
+                                </div>
+                                <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-slate-400 font-mono">Three.js WebGL</span>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="text-xs text-slate-400 font-semibold">اختر المجسم ثلاثي الأبعاد للتفاعل:</div>
+                                <div class="grid grid-cols-4 gap-1.5 text-[11px] font-bold">
+                                    <button onclick="switch3DGeometry('beam')" class="geo-btn px-2 py-2 rounded-lg bg-gold-500 text-black transition-all" data-geo="beam">جسر (I-Beam)</button>
+                                    <button onclick="switch3DGeometry('rebar')" class="geo-btn px-2 py-2 rounded-lg bg-dark-800 text-slate-300 hover:text-white transition-all" data-geo="rebar">حديد تسليح</button>
+                                    <button onclick="switch3DGeometry('tube')" class="geo-btn px-2 py-2 rounded-lg bg-dark-800 text-slate-300 hover:text-white transition-all" data-geo="tube">تيوب مجوف</button>
+                                    <button onclick="switch3DGeometry('coil')" class="geo-btn px-2 py-2 rounded-lg bg-dark-800 text-slate-300 hover:text-white transition-all" data-geo="coil">لفائف ستانلس</button>
+                                </div>
+                            </div>
+
+                            <div class="p-3 rounded-xl bg-dark-900/80 border border-white/5 text-xs text-slate-300 flex items-center gap-3">
+                                <i data-lucide="hand" class="w-5 h-5 text-gold-400 shrink-0"></i>
+                                <span>اضغط واسحب الفأرة على الشاشة لتدوير المجسم 360 درجة وفحص لمعان وزوايا المعدن!</span>
+                            </div>
+
+                            <div class="space-y-2 pt-2 border-t border-white/5">
+                                <div class="flex justify-between text-xs text-slate-400">
+                                    <span>المقاسات المتوفرة:</span>
+                                    <span class="text-gold-400 font-mono font-bold">7 مم إلى 40 مم لكافة القطاعات</span>
+                                </div>
+                                <div class="flex justify-between text-xs text-slate-400">
+                                    <span>خيارات التوريد:</span>
+                                    <span class="text-white font-mono">أسود • مجلفن • إيبوكسي • ستانلس</span>
+                                </div>
+                            </div>
+
+                            <button onclick="openRfqModal()" class="w-full py-3 rounded-xl bg-gold-500/10 hover:bg-gold-500 hover:text-black border border-gold-500/30 text-gold-400 font-bold text-xs transition-all flex items-center justify-center gap-2">
+                                <span>طلب عرض سعر لهذا القطاع</span>
+                                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Quick Pillars -->
+            <section class="py-16 border-t border-white/5 bg-dark-900/40">
+                <div class="max-w-7xl mx-auto px-4 md:px-12">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <div class="glass-panel glass-panel-hover rounded-2xl p-6 space-y-3 cursor-pointer" onclick="navigateTo('products', 'steel')">
+                            <div class="w-12 h-12 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center text-gold-400">
+                                <i data-lucide="boxes" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">قطاع الحديد التجاري والتسليح</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                حديد تسليح أسود وإيبوكسي من 7 مم حتى 40 مم، صاج، مبسطات، زوايا، شبك صبة أرضيات وجسور معتمدة.
+                            </p>
+                            <span class="text-gold-400 text-xs font-bold flex items-center gap-1">استعراض المنتجات <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></span>
+                        </div>
+
+                        <div class="glass-panel glass-panel-hover rounded-2xl p-6 space-y-3 cursor-pointer" onclick="navigateTo('products', 'stainless')">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                                <i data-lucide="sparkles" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">قطاع الاستانلس ستيل المتخصص</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                مواسير وأنابيب وألواح الاستانلس ستيل عالية الجودة بمقاسات واستخدامات متعددة (Grade 201 / 304 / 316).
+                            </p>
+                            <span class="text-emerald-400 text-xs font-bold flex items-center gap-1">استعراض مواصفات الستانلس <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></span>
+                        </div>
+
+                        <div class="glass-panel glass-panel-hover rounded-2xl p-6 space-y-3 cursor-pointer" onclick="navigateTo('branches')">
+                            <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+                                <i data-lucide="map-pin" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">33 فرعاً ومصنعاً في خدمتك</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                انتشار واسع يغطي الرياض، جدة، مكة، حائل، جازان، تبوك، سكاكا، القصيم، والشرقية للوصول السريع لطلبك.
+                            </p>
+                            <span class="text-sky-400 text-xs font-bold flex items-center gap-1">البحث في الفروع <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></span>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- OFFICIAL DOCUMENTARY VIDEO SECTION -->
+            <section class="py-20 border-t border-white/5 relative bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950">
+                <div class="max-w-6xl mx-auto px-4 md:px-8 space-y-8">
+                    <div class="text-center space-y-3">
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-bold">
+                            <i data-lucide="video" class="w-4 h-4"></i>
+                            <span>الفيديو الوثائقي الرسمي للصرح</span>
+                        </div>
+                        <h2 class="text-2xl md:text-4xl font-black text-white">
+                            شاهد صرح ومنتجات <span class="gold-gradient-text">شركة الراجحي للبناء والتعمير</span>
+                        </h2>
+                        <p class="text-xs md:text-sm text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                            جولة توثيقية حصرية داخل مصانع ومستودعات الشركة توضح خطوط إنتاج التيوبات، ساحات حديد التسليح، وفروع الاستانلس ستيل بالمملكة.
+                        </p>
+                    </div>
+
+                    <!-- Luxury Cinema Video Player Container -->
+                    <div class="relative glass-panel rounded-3xl p-3 md:p-5 border border-gold-500/30 shadow-2xl shadow-gold-500/10 overflow-hidden group">
+                        <div class="relative aspect-video rounded-2xl overflow-hidden bg-black border border-white/10 shadow-inner">
+                            <iframe src="https://player.vimeo.com/video/323323304?dnt=1&amp;app_id=122963" class="w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen title="منتجات الراجحي للبناء و التعمير"></iframe>
+                        </div>
+                        <div class="pt-4 flex flex-wrap items-center justify-between text-xs text-slate-400 px-2 gap-3">
+                            <span class="flex items-center gap-2 text-slate-300">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-gold-400"></i>
+                                <span>الفيديو الرسمي المعتمد من أرشيف شركة الراجحي</span>
+                            </span>
+                            <span class="font-mono text-gold-400">Al Rajhi Building & Construction Official Video</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FACTORY & REAL YARDS PHOTO GALLERY -->
+            <section class="py-16 border-t border-white/5 bg-dark-900/60">
+                <div class="max-w-7xl mx-auto px-4 md:px-12 space-y-10">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold mb-2">
+                                <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                                <span>معرض صور المنشآت الحية</span>
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-black text-white">
+                                من ساحات ومصانع <span class="gold-gradient-text">الراجحي</span>
+                            </h3>
+                        </div>
+                        <p class="text-xs text-slate-400 max-w-md">
+                            صور حقيقية موثقة لساحات التخزين، خطوط إنتاج التيوبات، ومستودعات قطاعات الحديد بمختلف مناطق المملكة.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="group relative rounded-2xl overflow-hidden glass-panel border border-white/10 aspect-square">
+                            <img src="assets/rebar.jpg" alt="ساحات حديد التسليح" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-3 flex items-end">
+                                <span class="text-xs font-bold text-white">ساحات حديد التسليح</span>
+                            </div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden glass-panel border border-white/10 aspect-square">
+                            <img src="assets/pipes.jpg" alt="مصنع التيوبات والمواسير" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-3 flex items-end">
+                                <span class="text-xs font-bold text-white">مصنع التيوبات والمواسير</span>
+                            </div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden glass-panel border border-white/10 aspect-square">
+                            <img src="assets/beams.jpg" alt="جسور وكَمَرات الحديد" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-3 flex items-end">
+                                <span class="text-xs font-bold text-white">جسور وكَمَرات إنشائية</span>
+                            </div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden glass-panel border border-white/10 aspect-square">
+                            <img src="assets/stainless.jpg" alt="قطاع الاستانلس ستيل" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-3 flex items-end">
+                                <span class="text-xs font-bold text-white">مستودعات الاستانلس ستيل</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <div id="view-about" class="page-view py-16">
+            <div class="max-w-7xl mx-auto px-4 md:px-12 space-y-16">
+                
+                <div class="text-center max-w-3xl mx-auto space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold">
+                        تاريخنا العريق
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black text-white">
+                        نبذة عن <span class="gold-gradient-text">شركة الراجحي للبناء والتعمير</span>
+                    </h2>
+                    <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+                        إحدى الشركات الرائدة والأولى في تجارة وصناعة الحديد والاستانلس ستيل في المملكة العربية السعودية منذ 1412 هـ (1991م).
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                    <div class="glass-panel rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="w-full h-56 rounded-2xl overflow-hidden border border-white/10 mb-4 shadow-lg">
+                                <img src="assets/about.jpg" alt="صرح شركة الراجحي للبناء والتعمير" class="w-full h-full object-cover" />
+                            </div>
+                            <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                                <i data-lucide="award" class="w-6 h-6 text-gold-400"></i>
+                                <span>من نحن؟</span>
+                            </h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                شركة الراجحي للبناء و التعمير إحدى الشركات الرائدة و الأولى في تجارة و صناعة الحديد و الاستانلس ستيل في المملكة العربية السعودية ، ساهمت الشركة مساهمة هامة في هذا القطاع الاقتصادي نظراً لسعيها الدائم في الريادة بمجالها و نظراً لامتلاكها فريق متكامل من الموظفين ذوي الخبرات الاحترافية و انتشار فروعنا في أغلب مناطق المملكة .
+                            </p>
+                        </div>
+                        
+                        <div class="p-4 rounded-2xl bg-dark-900 border border-white/5 space-y-2">
+                            <div class="text-xs text-gold-400 font-bold">تاريخ وسجل التأسيس:</div>
+                            <div class="text-xs text-slate-300 font-mono">تأسست في 12-06-1412 هـ بقطاعات متكاملة: ( المقاولات – الصناعة – التجارة ).</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="w-full h-56 rounded-2xl overflow-hidden border border-white/10 mb-4 shadow-lg bg-dark-900 flex items-center justify-center p-2">
+                                <img src="assets/vision.png" alt="رسالتنا ورؤيتنا" class="w-full h-full object-contain" />
+                            </div>
+                            <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                                <i data-lucide="compass" class="w-6 h-6 text-sky-400"></i>
+                                <span>رسالتنا ورؤيتنا</span>
+                            </h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                تسعى شركة الراجحي للبناء و التعمير لأن تصبح الشركة الرائدة في المملكة العربية السعودية والشرق الأوسط في مجال الحديد و الاستانلس ستيل ، حيث تقدم الشركة خدماتها بجودة عالية تفوق تصورات عملائها لتأكد لهم سعيها الدائم نحو الريادة في جميع مجالاتها .
+                            </p>
+                        </div>
+                        
+                        <div class="p-4 rounded-2xl bg-dark-900 border border-white/5 space-y-2">
+                            <div class="text-xs text-sky-400 font-bold">الالتزام بالجودة والمواصفات:</div>
+                            <div class="text-xs text-slate-300">مطابقة كاملة لمتطلبات الهيئة السعودية للمواصفات والمقاييس والجودة (ساسو SASO) وكود البناء السعودي.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+                    <div class="glass-panel rounded-2xl p-6 text-center space-y-3">
+                        <div class="w-14 h-14 mx-auto rounded-2xl bg-gold-500/10 text-gold-400 flex items-center justify-center font-black text-xl">1</div>
+                        <h4 class="font-bold text-white text-base">قطاع الصناعة</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">مصانع إنتاج المواسير والتيوبات المتخصصة، ومصانع تطعيج الشينكو والقرميد المعدني بأحدث خطوط الإنتاج المتطورة.</p>
+                    </div>
+                    <div class="glass-panel rounded-2xl p-6 text-center space-y-3">
+                        <div class="w-14 h-14 mx-auto rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-black text-xl">2</div>
+                        <h4 class="font-bold text-white text-base">قطاع التجارة والتوزيع</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">33 فرعاً ومستودعاً مركزياً تضمن إمداداً فورياً وسريعاً لمواقع البناء في كافة مدن ومحافظات المملكة.</p>
+                    </div>
+                    <div class="glass-panel rounded-2xl p-6 text-center space-y-3">
+                        <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-black text-xl">3</div>
+                        <h4 class="font-bold text-white text-base">قطاع المقاولات</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">خبرات متراكمة في دعم المنشآت الحيوية والمشاريع التنموية والإنشائية برؤية مواكبة لتطلعات المملكة 2030.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 3. PRODUCTS & FACTORIES VIEW -->
+        <div id="view-products" class="page-view py-16">
+            <div class="max-w-7xl mx-auto px-4 md:px-12 space-y-12">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold">
+                            الكتالوج الشامل
+                        </div>
+                        <h2 class="text-3xl md:text-5xl font-black text-white">
+                            منتجات الحديد <span class="gold-gradient-text">والاستانلس ستيل</span>
+                        </h2>
+                        <p class="text-slate-400 text-sm max-w-xl">
+                            جميع المقاسات والأوزان والسماكات المعتمدة في قطاعي الحديد والاستانلس ستيل مع إمكانية الفحص والتسعير المباشر.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 p-1.5 bg-dark-900 rounded-2xl border border-white/10 text-xs font-bold">
+                        <button onclick="filterCatalog('all')" class="cat-btn px-4 py-2.5 rounded-xl bg-gold-500 text-black transition-all" data-cat="all">جميع المنتجات (11)</button>
+                        <button onclick="filterCatalog('steel')" class="cat-btn px-4 py-2.5 rounded-xl text-slate-300 hover:text-white transition-all" data-cat="steel">الحديد التجاري والتسليح</button>
+                        <button onclick="filterCatalog('stainless')" class="cat-btn px-4 py-2.5 rounded-xl text-slate-300 hover:text-white transition-all" data-cat="stainless">الاستانلس ستيل</button>
+                        <button onclick="filterCatalog('shinko')" class="cat-btn px-4 py-2.5 rounded-xl text-slate-300 hover:text-white transition-all" data-cat="shinko">الشينكو والعوازل</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="catalog-grid">
+                    
+                    <!-- 1. مصنع تيوبات ومواسير -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="steel">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/pipes.jpg" alt="مواسير وتيوبات مسحوبة" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-gold-500/30 text-gold-400 text-[11px] font-mono font-bold">مصنع إنتاج تيوبات ومواسير</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">مواسير وتيوبات مسحوبة</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">SASO / ASTM</span>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-2 leading-relaxed">
+                                <p><strong class="text-white">مواسير:</strong> متوفرة بجميع المقاسات و السماكات المسحوبة على الحار و البارد و نوفر المواسير المجلفنة حسب الطلب .</p>
+                                <p><strong class="text-white">تيوبات:</strong> متوفرة بجميع المقاسات و السماكات في جميع فروعنا الخاصة بالحديد .</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">حار • بارد • مجلفن</span>
+                            <button onclick="openRfqModal('تيوبات ومواسير')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 2. حديد تسليح -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="steel">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/rebar.jpg" alt="حديد تسليح" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-sky-500/30 text-sky-400 text-[11px] font-mono font-bold">إنشائي ثقيل</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">حديد تسليح (أسود وايبوكسي)</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">Grade 60 / ASTM A615</span>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-2 leading-relaxed">
+                                <p>– توفر الشركة جميع مقاسات حديد التسليح الأسود و الايبوكسي ، من مصادره المختلفة سعودية المنشأ و الغير سعودية .</p>
+                                <p>– متوفر حديد تسليح بمقاسات <strong class="text-white">7 مم حتى 40 مم</strong>.</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">سعودي وطني وعالمي</span>
+                            <button onclick="openRfqModal('حديد تسليح')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 3. الاستانلس ستيل -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="stainless">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/stainless.jpg" alt="الاستانلس ستيل" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-emerald-500/30 text-emerald-400 text-[11px] font-mono font-bold">قطاع الاستانلس ستيل</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">مواسير وألواح الاستانلس ستيل</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">AISI / ASTM</span>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-2 leading-relaxed">
+                                <p>توفر الشركة مواسير و أنابيب الاستانلس ستيل عالية الجودة بمقاسات و استخدامات متعددة .</p>
+                                <p>بأنواعه المعتمدة: <strong class="text-white">GRED 201 / 304 / 316</strong> ( تايواني – صيني ) .</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">Grade 201 • 304 • 316</span>
+                            <button onclick="openRfqModal('استانلس ستيل')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 4. صاج -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="steel">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/sheets.jpg" alt="ألواح صاج" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-purple-500/30 text-purple-400 text-[11px] font-mono font-bold">ألواح صاج مسحوبة</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">صاج (مبزر • مجلفن • أسود)</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">مبزر / مجلفن / أسود</span>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-2 leading-relaxed">
+                                <p><strong class="text-white">صاج مبزر:</strong> بسماكات متعددة لاستخدامات متعددة منها تصفيح أرضيات سيارات النقل .</p>
+                                <p><strong class="text-white">صاج مجلفن:</strong> متوفر بعدة سماكات بقياسات نمطية .</p>
+                                <p><strong class="text-white">صاج أسود:</strong> لأعمال الحدادة و الأثاث المعدني و المفروشات بسماكات و قياسات متعددة حسب الطلب .</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">سماكات وقياسات قياسية</span>
+                            <button onclick="openRfqModal('صاج')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 5. جسور -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="steel">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/beams.jpg" alt="جسور وكَمَرات" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-amber-500/30 text-amber-400 text-[11px] font-mono font-bold">قطاعات ثقيلة</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">جسور وكَمَرات (Beams)</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">IPE / HEA / HEB</span>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-2 leading-relaxed">
+                                <p>متوفر كافة المقاسات الإنشائية والهندسية المعتمدة للمباني والمستودعات والجمالونات .</p>
+                                <p>المصادر: <strong class="text-white">وطني / كوري / صيني / صلب</strong> .</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">كافة الأوزان والأبعاد</span>
+                            <button onclick="openRfqModal('جسور')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 6. شينكو ومصنع تطعيج شينكو -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="shinko">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/shinko.jpg" alt="شينكو وتطعيج" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-rose-500/30 text-rose-400 text-[11px] font-mono font-bold">مصنع تطعيج شينكو</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">شينكو / مصنع تطعيج شينكو</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">SASO معتمد</span>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-2 leading-relaxed">
+                                <p>الشينكو مطابقة للهيئة السعودية للمواصفات و المقاييس و الجودة <strong class="text-white">( ساسو )</strong> .</p>
+                                <p>كما نوفر قرميد معدني عالي المتانة <strong class="text-white">( وطني و كوري )</strong> .</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">شينكو وقرميد معدني</span>
+                            <button onclick="openRfqModal('شينكو')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 7. مبسطات -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="steel">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/galvanized.jpg" alt="مبسطات حديد" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-teal-500/30 text-teal-400 text-[11px] font-mono font-bold">مبسطات Flat Bars</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">مبسطات حديد</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">Flat Bars</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                مبسطات : متوفرة بجميع المقاسات و السماكات / وطني – صيني لتطبيقات الحدادة والتشييد المعدني .
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">وطني وصيني</span>
+                            <button onclick="openRfqModal('مبسطات')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 8. زوايا -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="steel">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/angles.jpg" alt="زوايا حديد" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-indigo-500/30 text-indigo-400 text-[11px] font-mono font-bold">زوايا هندسية</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">زوايا حديد</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">Equal/Unequal Angles</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                زوايا : متوفرة بجميع المقاسات و السماكات المعتمدة لأعمال الهياكل والتثبيت والجمالونات .
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">كافة الأبعاد</span>
+                            <button onclick="openRfqModal('زوايا')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 9. شبك -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="steel">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/grids.jpg" alt="شبك معدني" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-blue-500/30 text-blue-400 text-[11px] font-mono font-bold">شبك Wire Mesh</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">شبك بكافة المقاسات</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">Wire Mesh & Grids</span>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-1 leading-relaxed">
+                                <p>متوفر شبك بجميع المقاسات والأنواع :</p>
+                                <p class="text-white font-medium">• شبك صبة أرضيات • شبك مزارع • شبك بقلاوة • شبك لفة .</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">أرضيات ومزارع وبقلاوة</span>
+                            <button onclick="openRfqModal('شبك')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 10. عوازل -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="shinko">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/insulation.jpg" alt="عوازل مائي وحراري" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-orange-500/30 text-orange-400 text-[11px] font-mono font-bold">عزل المنشآت</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">عوازل (مائي وحراري)</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">Thermal & Water</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                متوفر جميع أنواع العوازل / مائي و حراري لحماية المباني والأسطح والمستودعات من تسرب المياه والحرارة .
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">عزل مائي وحراري كامل</span>
+                            <button onclick="openRfqModal('عوازل')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                    <!-- 11. اكسسوارات الحديد والاستانلس ستيل -->
+                    <div class="catalog-card glass-panel glass-panel-hover rounded-3xl p-6 space-y-4 flex flex-col justify-between" data-category="stainless">
+                        <div class="space-y-4">
+                            <div class="h-48 w-full rounded-2xl overflow-hidden relative group/img bg-dark-950/80 border border-white/5">
+                                <img src="assets/accessories.jpg" alt="اكسسوارات وملحقات" class="w-full h-full object-cover transform group-hover/img:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-cyan-500/30 text-cyan-400 text-[11px] font-mono font-bold">مستلزمات متكاملة</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-xl font-bold text-white">اكسسوارات الحديد والاستانلس</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">Accessories</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                كافة ملحقات الحدادة والدرابزينات والمثبتات والأغطية والأكواع المتخصصة لقطاعي الحديد والاستانلس ستيل .
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400">شاملة لكافة المستلزمات</span>
+                            <button onclick="openRfqModal('اكسسوارات')" class="px-3 py-1.5 rounded-lg bg-gold-500 text-black text-xs font-bold hover:bg-gold-400 transition-all shadow-md">طلب تسعير</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 4. BRANCHES DIRECTORY VIEW -->
+        <div id="view-branches" class="page-view py-16">
+            <div class="max-w-7xl mx-auto px-4 md:px-12 space-y-12">
+                
+                <div class="text-center max-w-3xl mx-auto space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold">
+                        أكبر شبكة فروع صناعية وتجارية بالمملكة
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black text-white">
+                        دليل الفروع والمستودعات <br>
+                        <span class="gold-gradient-text">( 33 فرعاً ومصنعاً )</span>
+                    </h2>
+                    <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+                        «تسهيلاً لعملائنا الكرام في سرعة اختيار المستودع الذي يمكن الوصول إليه بكل سهولة ويسر»
+                    </p>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="relative w-full md:w-96">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="branch-live-search" oninput="runBranchSearch()" placeholder="ابحث باسم الفرع، المدينة، أو الهاتف (مثال: ملهم، حائل، 054...)" class="w-full bg-dark-900 border border-white/10 rounded-xl pr-11 pl-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors">
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                        <button onclick="setBranchFilter('all')" class="b-type-btn px-4 py-2 rounded-xl bg-gold-500 text-black text-xs font-bold transition-all" data-type="all">جميع الفروع (33)</button>
+                        <button onclick="setBranchFilter('iron')" class="b-type-btn px-4 py-2 rounded-xl bg-dark-900 border border-white/10 text-slate-300 hover:text-white text-xs font-bold transition-all" data-type="iron">فروع الحديد (23)</button>
+                        <button onclick="setBranchFilter('stainless')" class="b-type-btn px-4 py-2 rounded-xl bg-dark-900 border border-white/10 text-slate-300 hover:text-white text-xs font-bold transition-all" data-type="stainless">فروع الستانلس (10)</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="all-branches-container"></div>
+
+            </div>
+        </div>
+
+        <!-- 5. SMART STEEL CALCULATOR VIEW -->
+        <div id="view-calculator" class="page-view py-16">
+            <div class="max-w-4xl mx-auto px-4 md:px-8 space-y-10">
+                
+                <div class="text-center space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 text-xs font-bold border border-sky-500/20">
+                        أداة هندسية حصرية للمقاولين
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black text-white">حاسبة أوزان وكميات حديد التسليح</h2>
+                    <p class="text-xs sm:text-sm text-slate-400">احسب وزن المتر الطولي، والوزن الإجمالي بالأطنان لجميع أقطار حديد التسليح من 8 مم حتى 40 مم فوراً.</p>
+                </div>
+
+                <div class="glass-panel rounded-3xl p-6 md:p-10 space-y-8 border border-sky-500/30">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">قطر السيخ (Diameter)</label>
+                            <select id="calc-diameter" onchange="calculateSteelWeight()" class="w-full bg-dark-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-gold-500">
+                                <option value="8">8 مم (0.395 كجم/م)</option>
+                                <option value="10">10 مم (0.617 كجم/م)</option>
+                                <option value="12" selected>12 مم (0.888 كجم/م)</option>
+                                <option value="14">14 مم (1.208 كجم/م)</option>
+                                <option value="16">16 مم (1.578 كجم/م)</option>
+                                <option value="18">18 مم (1.998 كجم/م)</option>
+                                <option value="20">20 مم (2.466 كجم/م)</option>
+                                <option value="25">25 مم (3.853 كجم/م)</option>
+                                <option value="32">32 مم (6.313 كجم/م)</option>
+                                <option value="40">40 مم (9.864 كجم/م)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">طول السيخ (المتر القياسي 12م)</label>
+                            <input type="number" id="calc-length" value="12" oninput="calculateSteelWeight()" class="w-full bg-dark-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-gold-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">عدد الأسياخ المطلوبة</label>
+                            <input type="number" id="calc-bars" value="100" oninput="calculateSteelWeight()" class="w-full bg-dark-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-gold-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 rounded-2xl bg-dark-900/90 border border-white/10 text-center">
+                        <div>
+                            <div class="text-[11px] text-slate-400">وزن المتر الطولي</div>
+                            <div id="res-meter-weight" class="text-xl font-bold text-sky-400 font-mono mt-1">0.888 كجم/م</div>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-slate-400">وزن السيخ الواحد (12م)</div>
+                            <div id="res-bar-weight" class="text-xl font-bold text-gold-400 font-mono mt-1">10.66 كجم</div>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-slate-400">الوزن الإجمالي التقديري</div>
+                            <div id="res-total-ton" class="text-xl font-bold text-emerald-400 font-mono mt-1">1.066 طن</div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10 text-xs">
+                        <span class="text-slate-400">تعتمد المعادلة القياسية المعتمدة: W = D² / 162 كود البناء السعودي.</span>
+                        <button onclick="transferToRfq()" class="px-6 py-2.5 rounded-xl bg-gold-500 text-black font-extrabold hover:bg-gold-400 transition-all flex items-center gap-2">
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                            <span>طلب تسعير هذه الكمية فوراً</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 6. LEADERSHIP MESSAGES VIEW -->
+        <div id="view-leadership" class="page-view py-16">
+            <div class="max-w-7xl mx-auto px-4 md:px-12 space-y-16">
+                
+                <div class="text-center max-w-2xl mx-auto space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold">
+                        الكلمات الرسمية
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black text-white">
+                        رسالة القيادة <span class="gold-gradient-text">والإدارة العليا</span>
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- كلمة رئيس مجلس الإدارة -->
+                    <div class="glass-panel rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-2xl border-2 border-gold-500/50 overflow-hidden shadow-lg shadow-gold-500/20 shrink-0">
+                                    <img src="assets/chairman.jpg" alt="م . خالد صالح الراجحي" class="w-full h-full object-cover" />
+                                </div>
+                                <div>
+                                    <span class="text-xs font-mono text-gold-400 uppercase tracking-wider">رئيس مجلس الإدارة</span>
+                                    <h3 class="text-2xl font-bold text-white">م . خالد صالح الراجحي</h3>
+                                </div>
+                            </div>
+
+                            <div class="text-slate-300 text-sm leading-relaxed space-y-3 border-r-2 border-gold-500/40 pr-4 italic">
+                                <p>«نحن في شركة الراجحي للبناء و التعمير نستمد قوتنا من خلال الدعم الدائم الذي نتلقاه من عملائنا على مدار الأعوام السابقة .</p>
+                                <p>فهو أحد الجوانب التي لعبت دوراً حيوياً في الوصول إلى موقعنا المرموق في السوق فمنذ بداية عملنا في السوق تمكنا و بفضل من الله من إنجاز و تحقيق نجاحات رائعة .</p>
+                                <p>ونحن من جديد نكمل مسيرة العطاء لنساهم في إضافة قيمة جديدة لبناء المجتمع و تعزيز تقدمنا بخطى واثقة لتحقيق المزيد من النجاح و الازدهار . هذا النجاح لم يكن يتحقق بدون موظفينا المؤهلين الذين يمتلكون الكثير من القدرات الاحترافية للقيام بعملهم بشكل مستمر .</p>
+                                <p>و إنني إذ أغتنم هذه المناسبة لأرسل لهم خالص تحياتي و أيضاً لجميع أولئك الذين يقدمون يد المساعدة للإسهام في تعزيز صورة شركتنا . ولدعم الأعمال الجارية و الحفاظ على ريادتنا في السوق نسعى دائماً إلى المزيد من التوسع و التطوير و عليه فإننا لن ندخر وسعاً في تقديم خدمات عالية الجودة تفوق توقعات عملائنا .</p>
+                                <p>مع أطيب تمنياتي و امتناني العميق لعملائنا الكرام .»</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-white/5 flex items-center justify-between text-xs text-slate-400">
+                            <span>شركة الراجحي للبناء والتعمير</span>
+                            <span class="text-gold-400 font-semibold">مسيرة التوسع والريادة</span>
+                        </div>
+                    </div>
+
+                    <!-- كلمة المدير العام -->
+                    <div class="glass-panel rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-2xl border-2 border-sky-500/50 overflow-hidden shadow-lg shadow-sky-500/20 shrink-0">
+                                    <img src="assets/gm.jpg" alt="ناصر بن مهدي آل سلطان" class="w-full h-full object-cover" />
+                                </div>
+                                <div>
+                                    <span class="text-xs font-mono text-sky-400 uppercase tracking-wider">المدير العام</span>
+                                    <h3 class="text-2xl font-bold text-white">ناصر بن مهدي آل سلطان</h3>
+                                </div>
+                            </div>
+
+                            <div class="text-slate-300 text-sm leading-relaxed space-y-3 border-r-2 border-sky-500/40 pr-4 italic">
+                                <p>«السلام عليكم و رحمة الله و بركاته ، و بعد :</p>
+                                <p>تأسست شركة الراجحي للبناء و التعمير في 12-06-1412 هـ بقطاعات ( المقاولات – الصناعة – التجارة ) و منذ تأسيسها أولت على عاتقها خدمة المواطن أينما كان داخل مملكتنا الغالية و بتوفير كل ما يحتاجه في مقر إقامته و لراحة و خدمة المواطن انتشرت معارضنا و مستودعاتنا داخل مملكتنا الحبيبة و الغالية .</p>
+                                <p>وفي سبيل خدمة الوطن و المواطن و تحقيق درجة من الشفافية الكبيرة ندشن اليوم موقع الشركة قطاع التجارة بقسميه ( الحديد و الاستانلس ستيل ) و الذي يوضح انتشار مستودعاتنا بالمملكة تسهيلاً لعملائنا الكرام في سرعة اختيار المستودع الذي يمكن الوصول إليه بكل سهولة و يسر من خلال ( 33 فرع داخل المملكة في مختلف المناطق ) .</p>
+                                <p>و إذ أتقدم بالتهنئة للقائمين على امر و إدارة الشركة و منسوبيها لهذا الجهد المبارك ، آمل أن يكون إضافة مقدرة و معتبرة للشركة و خدمة مستودعاتنا المنتشرة على نطاق المملكة العربية السعودية . شاكراً و مقدراً لكم و آمل زيارتكم لموقعنا و إسداء النصح و المشورة لنا .»</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-white/5 flex items-center justify-between text-xs text-slate-400">
+                            <span>قطاع التجارة والصناعة</span>
+                            <span class="text-sky-400 font-semibold">33 فرعاً في خدمة الوطن</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 7. CONTACT US VIEW -->
+        <div id="view-contact" class="page-view py-16">
+            <div class="max-w-7xl mx-auto px-4 md:px-12 space-y-12">
+                
+                <div class="text-center max-w-2xl mx-auto space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold">
+                        الاتصال المباشر بالإدارة العامة
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black text-white">
+                        تواصل معنا <span class="gold-gradient-text">الآن</span>
+                    </h2>
+                    <p class="text-slate-400 text-sm">يسعدنا دائماً استقبال استفساراتكم وطلبات التوريد والمشاريع الكبرى.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    <div class="lg:col-span-5 space-y-4">
+                        
+                        <div class="glass-panel rounded-2xl p-6 space-y-2">
+                            <div class="flex items-center gap-3 text-gold-400">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                <h4 class="font-bold text-white text-base">المقر الرئيسي</h4>
+                            </div>
+                            <p class="text-xs text-slate-300 pr-8 leading-relaxed">
+                                الرياض – المملكة العربية السعودية . <br>
+                                ص.ب 35009 الرمز البريدي 11488 .
+                            </p>
+                        </div>
+
+                        <div class="glass-panel rounded-2xl p-6 space-y-2">
+                            <div class="flex items-center gap-3 text-gold-400">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                                <h4 class="font-bold text-white text-base">الهاتف الموحد والتحويلات</h4>
+                            </div>
+                            <p class="text-xs text-slate-300 pr-8 leading-relaxed font-mono">
+                                00966112985860 تحويلة 111 <br>
+                                00966112985860 تحويلة 105
+                            </p>
+                        </div>
+
+                        <div class="glass-panel rounded-2xl p-6 space-y-2">
+                            <div class="flex items-center gap-3 text-emerald-400">
+                                <i data-lucide="message-square" class="w-5 h-5"></i>
+                                <h4 class="font-bold text-white text-base">خدمة العملاء والواتساب</h4>
+                            </div>
+                            <p class="text-xs text-slate-300 pr-8 leading-relaxed font-mono">
+                                <a href="tel:00966572465506" class="hover:text-gold-400">00966572465506</a>
+                            </p>
+                        </div>
+
+                        <div class="glass-panel rounded-2xl p-6 space-y-2">
+                            <div class="flex items-center gap-3 text-sky-400">
+                                <i data-lucide="mail" class="w-5 h-5"></i>
+                                <h4 class="font-bold text-white text-base">البريد الإلكتروني المعتمد</h4>
+                            </div>
+                            <p class="text-xs text-slate-300 pr-8 leading-relaxed font-mono">
+                                <a href="mailto:info@alalrajhibuilding.com" class="hover:text-gold-400">info@alalrajhibuilding.com</a>
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-gold-500/10 border border-gold-500/20 text-center">
+                            <a href="tel:00966112985860" class="block w-full py-3 rounded-xl bg-gold-500 text-black font-extrabold text-xs hover:bg-gold-400 transition-all">اتصال هاتفي مباشر بالإدارة</a>
+                        </div>
+
+                    </div>
+
+                    <div class="lg:col-span-7 glass-panel rounded-3xl p-3 overflow-hidden h-[500px]">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d641.6520673958173!2d46.721197917596264!3d24.529346487791365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0c2653ea1b13%3A0x5fc5fe4c52bed114!2z2KfZhNix2KfYrNit2Yog2YTZhNiy2K7YsdmB2Ycg2YjYp9mE2K3Yr9mK2K8!5e0!3m2!1sar!2ssa!4v1762152653231!5m2!1sar!2ssa" width="100%" height="100%" style="border:0; border-radius: 16px; filter: invert(90%) hue-rotate(180deg) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5 bg-dark-950 py-12 px-4 md:px-12 text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-xl bg-dark-900 border border-gold-500/30 flex items-center justify-center p-2">
+                    <img src="logo.png" alt="شركة الراجحي للبناء والتعمير" class="w-full h-full object-contain filter drop-shadow-[0_2px_6px_rgba(212,175,55,0.4)]" />
+                </div>
+                <div>
+                    <span class="text-white font-bold text-sm block">شركة الراجحي للبناء و التعمير</span>
+                    <span class="text-[10px] text-slate-500">سجل تجاري وصناعي معتمد بالمملكة العربية السعودية • تأسست 1412 هـ</span>
+                </div>
+            </div>
+            <div class="text-center md:text-left py-2 border-y md:border-y-0 border-white/5 my-2 md:my-0">
+                <span class="text-[11px] text-slate-400">تصميم وتطوير الهوية الرقمية بواسطة:</span>
+                <span class="text-gold-400 font-bold text-xs block md:inline mr-1">وكالة آثر للدعايا والإعلان (Athar Advertising)</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-6 text-xs">
+                <button onclick="navigateTo('home')" class="hover:text-gold-400">الرئيسية</button>
+                <button onclick="navigateTo('about')" class="hover:text-gold-400">نبذة عنا</button>
+                <button onclick="navigateTo('products')" class="hover:text-gold-400">المنتجات</button>
+                <button onclick="navigateTo('branches')" class="hover:text-gold-400">دليل الـ 33 فرعاً</button>
+                <button onclick="navigateTo('calculator')" class="hover:text-gold-400">حاسبة الأوزان</button>
+                <button onclick="navigateTo('contact')" class="hover:text-gold-400">تواصل معنا</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: FAST RFQ QUOTATION -->
+    <div id="rfq-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-panel max-w-2xl w-full rounded-3xl p-6 md:p-8 space-y-6 border border-gold-500/40 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gold-500/20 text-gold-400 flex items-center justify-center">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white">طلب تسعيرة وتوريد رسمي</h4>
+                        <p class="text-xs text-slate-400">ربط مباشر مع مسؤولي المبيعات في الفرع الأقرب لمشروعك</p>
+                    </div>
+                </div>
+                <button onclick="closeRfqModal()" class="text-slate-400 hover:text-white p-1 rounded-lg bg-white/5">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleRfqSubmit(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">اسم المنشأة أو العميل *</label>
+                        <input type="text" id="rfq-name" required placeholder="شركة الإعمار الحديثة" class="w-full bg-dark-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">رقم الجوال أو الواتساب *</label>
+                        <input type="tel" id="rfq-phone" required placeholder="05XXXXXXXX" class="w-full bg-dark-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">نوع المنتج المطلوب</label>
+                        <select id="rfq-product" class="w-full bg-dark-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold-500">
+                            <option>حديد تسليح (أسود / إيبوكسي)</option>
+                            <option>تيوبات ومواسير (حار / بارد / مجلفن)</option>
+                            <option>استانلس ستيل (201 / 304 / 316)</option>
+                            <option>صاج (مبزر / مجلفن / أسود)</option>
+                            <option>جسور وكَمَرات</option>
+                            <option>شينكو ساسو / قرميد معدني</option>
+                            <option>مبسطات وزوايا</option>
+                            <option>شبك أرضيات ومزارع</option>
+                            <option>عوازل مائية وحرارية</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">الكمية المقدرة والمدينة</label>
+                        <input type="text" id="rfq-details" placeholder="مثال: 50 طن في مدينة الرياض" class="w-full bg-dark-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">ملاحظات إضافية أو مقاسات خاصة</label>
+                    <textarea id="rfq-notes" rows="3" placeholder="أدخل أي مقاسات أو مواصفات خاصة..." class="w-full bg-dark-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold-500"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-gold-500 via-amber-500 to-gold-600 text-black font-extrabold text-xs shadow-xl shadow-gold-500/25 hover:scale-[1.01] transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    <span>إرسال طلب التسعيرة الرسمي الآن</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: BEFORE VS AFTER PITCH WEAPON -->
+    <div id="pitch-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-panel max-w-4xl w-full rounded-3xl p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto border border-gold-500/40 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gold-500/20 text-gold-400 flex items-center justify-center">
+                        <i data-lucide="split" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white">رؤية تطوير البوابة الرقمية | وكالة آثر للدعايا والإعلان</h4>
+                        <p class="text-xs text-slate-400">مقارنة تحليلية دقيقة تُوضح لشركة الراجحي الفارق بين الموقع القديم والنموذج الفاخر المطور 3D</p>
+                    </div>
+                </div>
+                <button onclick="togglePitchModal()" class="text-slate-400 hover:text-white p-1 rounded-lg bg-white/5">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                
+                <div class="p-5 rounded-2xl bg-red-950/20 border border-red-500/25 space-y-3">
+                    <div class="flex items-center justify-between text-red-400 font-bold text-sm">
+                        <span>الموقع الحالي لشركة الراجحي</span>
+                        <i data-lucide="x-circle" class="w-4 h-4"></i>
+                    </div>
+                    <ul class="space-y-2 text-slate-300 list-disc list-inside leading-relaxed">
+                        <li>قالب ووردبريس قديم متهالك لا يناسب حجم الصرح.</li>
+                        <li>جمود بصري بدون أي تفاعل أو محاكاة ثلاثية الأبعاد (3D).</li>
+                        <li>ألوان رمادية باهتة لا تنقل هيبة العلامة التجارية.</li>
+                        <li>صعوبة شديدة في العثور على أرقام الفروع الـ 33 بسبب غياب البحث والفلترة.</li>
+                        <li>انعدام حاسبة الأوزان ونظام التسعير المباشر (خسارة عملاء يومياً).</li>
+                    </ul>
+                </div>
+
+                <div class="p-5 rounded-2xl bg-emerald-950/20 border border-emerald-500/35 space-y-3">
+                    <div class="flex items-center justify-between text-emerald-400 font-bold text-sm">
+                        <span>النموذج الفاخر المطور الجديد 3D</span>
+                        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    </div>
+                    <ul class="space-y-2 text-slate-300 list-disc list-inside leading-relaxed">
+                        <li>تصميم ملكي فخم (Dark Titanium & Brushed Gold) يماثل كبرى شركات الصلب العالمية.</li>
+                        <li>بيئة WebGL 3D تفاعلية تحاكي قطاعات الحديد وتدور بحركة الفأرة.</li>
+                        <li>محرك بحث وفلترة فورية للفروع الـ 33 مع زر اتصال وواتساب فوري.</li>
+                        <li>حاسبة أوزان حديد التسليح الذكية للمقاولين والمهندسين.</li>
+                        <li>حفظ كامل بيانات وتاريخ وإداريي وفروع ومصانع الشركة بنسبة 100%.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="p-4 rounded-xl bg-gold-500/10 border border-gold-500/20 text-xs text-gold-300 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <span>جاهز للربط مع نظام إدارة المستودعات، وتطبيق الهواتف الذكية.</span>
+                <button onclick="togglePitchModal()" class="px-5 py-2 rounded-lg bg-gold-500 text-black font-bold">إغلاق المقارنة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: DATA & INTERACTIVITY ENGINE -->
+    <script>
+        lucide.createIcons();
+
+        const allBranchesData = [
+            // فروع الحديد (23)
+            { name: "الإدارة العامة (الرياض)", phone: "00966112985860", ext: "111", type: "iron", region: "منطقة الرياض" },
+            { name: "فرع أبو عريش", phone: "0544377305", ext: null, type: "iron", region: "المنطقة الجنوبية" },
+            { name: "فرع حائل", phone: "0555859423", ext: null, type: "iron", region: "منطقة حائل" },
+            { name: "فرع مكة المكرمة", phone: "0534772192", ext: null, type: "iron", region: "منطقة مكة المكرمة" },
+            { name: "فرع جازان", phone: "0558903915", ext: null, type: "iron", region: "منطقة جازان" },
+            { name: "فرع جدة الرئيسي", phone: "0531196735", ext: null, type: "iron", region: "منطقة مكة المكرمة" },
+            { name: "فرع جدة (طريق عسفان)", phone: "0558246207", ext: null, type: "iron", region: "منطقة مكة المكرمة" },
+            { name: "فرع الجموم", phone: "0539358951", ext: null, type: "iron", region: "منطقة مكة المكرمة" },
+            { name: "فرع سكاكا", phone: "0550411145", ext: null, type: "iron", region: "منطقة الجوف" },
+            { name: "فرع تبوك", phone: "0543888168", ext: null, type: "iron", region: "منطقة تبوك" },
+            { name: "فرع عريعرة", phone: "0537726758", ext: null, type: "iron", region: "المنطقة الشرقية" },
+            { name: "فرع شوية رماح", phone: "0504433511", ext: null, type: "iron", region: "منطقة الرياض" },
+            { name: "فرع حفر الباطن", phone: "0531363879", ext: null, type: "iron", region: "المنطقة الشرقية" },
+            { name: "فرع الدوادمي", phone: "0551345913", ext: null, type: "iron", region: "منطقة الرياض" },
+            { name: "فرع الخرج", phone: "0551536723", ext: null, type: "iron", region: "منطقة الرياض" },
+            { name: "فرع المزاحمية", phone: "0594221111", ext: null, type: "iron", region: "منطقة الرياض" },
+            { name: "فرع الدخل المحدود (الرياض)", phone: "0556444284", ext: null, type: "iron", region: "منطقة الرياض" },
+            { name: "فرع النسيم السعادة (الرياض)", phone: "0502205590", ext: null, type: "iron", region: "منطقة الرياض" },
+            { name: "فرع النسيم الفواز (الرياض)", phone: "0112383386", ext: null, type: "iron", region: "منطقة الرياض" },
+            { name: "مصنع ملهم للحديد", phone: "0532340394", ext: null, type: "iron", region: "منطقة الرياض" },
+            { name: "فرع المدينة المنورة", phone: "0532644907", ext: null, type: "iron", region: "المدينة المنورة" },
+            { name: "فرع السلي (الرياض)", phone: "0559359200", ext: null, type: "iron", region: "منطقة الرياض" },
+            { name: "فرع أحد المسارحة", phone: "0560681880", ext: null, type: "iron", region: "المنطقة الجنوبية" },
+            { name: "فرع خميس مشيط", phone: "0539366679", ext: null, type: "iron", region: "منطقة عسير" },
+
+            // فروع الستانلس (10)
+            { name: "الإدارة العامة للاستانلس", phone: "00966112985860", ext: "111", type: "stainless", region: "منطقة الرياض" },
+            { name: "فرع الاستانلس الرئيسي (الرياض)", phone: "0502948209", ext: null, type: "stainless", region: "منطقة الرياض" },
+            { name: "فرع الأبراج الشفا", phone: "0592278886", ext: null, type: "stainless", region: "منطقة الرياض" },
+            { name: "مصنع ملهم للاستانلس", phone: "0566399176", ext: null, type: "stainless", region: "منطقة الرياض" },
+            { name: "فرع الطائف", phone: "0548909794", ext: null, type: "stainless", region: "منطقة مكة المكرمة" },
+            { name: "فرع جدة للاستانلس", phone: "0551387248", ext: null, type: "stainless", region: "منطقة مكة المكرمة" },
+            { name: "فرع بريدة", phone: "0507749512", ext: null, type: "stainless", region: "منطقة القصيم" },
+            { name: "فرع المدينة الصناعية", phone: "0537492955", ext: null, type: "stainless", region: "منطقة الرياض" },
+            { name: "فرع الدمام", phone: "0509821415", ext: null, type: "stainless", region: "المنطقة الشرقية" },
+            { name: "فرع المدينة المنورة للاستانلس", phone: "0509658135", ext: null, type: "stainless", region: "المدينة المنورة" }
+        ];
+
+        let selectedBranchType = 'all';
+
+        function navigateTo(pageId, subParam = null) {
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            const target = document.getElementById('view-' + pageId);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('text-gold-400');
+                    link.classList.remove('text-slate-300');
+                } else {
+                    link.classList.remove('text-gold-400');
+                    link.classList.add('text-slate-300');
+                }
+            });
+
+            if (pageId === 'products' && subParam) {
+                filterCatalog(subParam);
+            }
+        }
+
+        function renderBranchesList(items) {
+            const container = document.getElementById('all-branches-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            items.forEach(b => {
+                const isStainless = b.type === 'stainless';
+                const tagColor = isStainless ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25' : 'text-gold-400 bg-gold-500/10 border-gold-500/25';
+                const tagLabel = isStainless ? 'قطاع الاستانلس ستيل' : 'قطاع الحديد';
+
+                const card = document.createElement('div');
+                card.className = "glass-panel glass-panel-hover rounded-2xl p-5 space-y-3 relative group";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full border ${tagColor}">${tagLabel}</span>
+                        <span class="text-[10px] text-slate-400">${b.region}</span>
+                    </div>
+                    <h5 class="text-sm font-bold text-white group-hover:text-gold-400 transition-colors">${b.name}</h5>
+                    <div class="flex items-center gap-2 text-xs font-mono text-slate-300">
+                        <i data-lucide="phone" class="w-3.5 h-3.5 text-gold-400"></i>
+                        <span dir="ltr">${b.phone}${b.ext ? ' ext ' + b.ext : ''}</span>
+                    </div>
+                    <div class="pt-3 border-t border-white/5 flex items-center gap-2">
+                        <a href="tel:${b.phone}" class="flex-1 py-1.5 rounded-lg bg-white/5 hover:bg-gold-500 hover:text-black text-slate-200 text-center text-xs font-semibold transition-all">اتصال فوري</a>
+                        <a href="https://wa.me/966${b.phone.replace(/^0+/, '')}" target="_blank" class="p-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-black transition-all" title="محادثة واتساب">
+                            <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function setBranchFilter(type) {
+            selectedBranchType = type;
+            document.querySelectorAll('.b-type-btn').forEach(btn => {
+                if (btn.getAttribute('data-type') === type) {
+                    btn.className = "b-type-btn px-4 py-2 rounded-xl bg-gold-500 text-black text-xs font-bold transition-all";
+                } else {
+                    btn.className = "b-type-btn px-4 py-2 rounded-xl bg-dark-900 border border-white/10 text-slate-300 hover:text-white text-xs font-bold transition-all";
+                }
+            });
+            runBranchSearch();
+        }
+
+        function runBranchSearch() {
+            const query = (document.getElementById('branch-live-search')?.value || '').toLowerCase().trim();
+            const filtered = allBranchesData.filter(b => {
+                const matchesType = (selectedBranchType === 'all') || (b.type === selectedBranchType);
+                const matchesQuery = b.name.toLowerCase().includes(query) || b.region.toLowerCase().includes(query) || b.phone.includes(query);
+                return matchesType && matchesQuery;
+            });
+            renderBranchesList(filtered);
+        }
+
+        function filterCatalog(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = "cat-btn px-4 py-2.5 rounded-xl bg-gold-500 text-black transition-all";
+                } else {
+                    btn.className = "cat-btn px-4 py-2.5 rounded-xl text-slate-300 hover:text-white transition-all";
+                }
+            });
+
+            document.querySelectorAll('.catalog-card').forEach(card => {
+                if (cat === 'all' || card.getAttribute('data-category') === cat) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function calculateSteelWeight() {
+            const diameter = parseFloat(document.getElementById('calc-diameter').value);
+            const length = parseFloat(document.getElementById('calc-length').value) || 12;
+            const bars = parseFloat(document.getElementById('calc-bars').value) || 1;
+
+            const meterWeight = (diameter * diameter) / 162.2;
+            const barWeight = meterWeight * length;
+            const totalTon = (barWeight * bars) / 1000;
+
+            document.getElementById('res-meter-weight').innerText = meterWeight.toFixed(3) + ' كجم/م';
+            document.getElementById('res-bar-weight').innerText = barWeight.toFixed(2) + ' كجم';
+            document.getElementById('res-total-ton').innerText = totalTon.toFixed(3) + ' طن';
+        }
+
+        function transferToRfq() {
+            const diameter = document.getElementById('calc-diameter').value;
+            const bars = document.getElementById('calc-bars').value;
+            const totalTon = document.getElementById('res-total-ton').innerText;
+
+            openRfqModal('حديد تسليح');
+            document.getElementById('rfq-details').value = `طلب توريد: حديد قطر ${diameter} مم - الكمية: ${bars} سيخ (حوالي ${totalTon})`;
+        }
+
+        function openRfqModal(prodName = '') {
+            const modal = document.getElementById('rfq-modal');
+            if (prodName) {
+                const sel = document.getElementById('rfq-product');
+                for (let i = 0; i < sel.options.length; i++) {
+                    if (sel.options[i].text.includes(prodName)) {
+                        sel.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeRfqModal() {
+            const modal = document.getElementById('rfq-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function togglePitchModal() {
+            const modal = document.getElementById('pitch-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function handleRfqSubmit(e) {
+            e.preventDefault();
+            alert('تم استلام طلب التسعيرة بنجاح! سيقوم مسؤول المبيعات للفرع الأقرب بالتواصل معكم فوراً.');
+            closeRfqModal();
+            e.target.reset();
+        }
+
+        // ==========================================
+        // 3D THREE.JS STEEL INTERACTIVE ENGINE
+        // ==========================================
+        let currentMeshGroup = null;
+        let renderer, scene, camera;
+        let activeShape = 'beam';
+
+        function initHero3D() {
+            const canvas = document.getElementById('hero-3d-canvas');
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 22;
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambient);
+
+            const goldPoint = new THREE.PointLight(0xD4AF37, 2.5, 45);
+            goldPoint.position.set(12, 12, 12);
+            scene.add(goldPoint);
+
+            const cyanPoint = new THREE.PointLight(0x38bdf8, 2, 45);
+            cyanPoint.position.set(-12, -10, 10);
+            scene.add(cyanPoint);
+
+            currentMeshGroup = new THREE.Group();
+            scene.add(currentMeshGroup);
+
+            build3DModel('beam');
+
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+
+            canvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const deltaX = e.clientX - previousMousePosition.x;
+                    const deltaY = e.clientY - previousMousePosition.y;
+                    currentMeshGroup.rotation.y += deltaX * 0.008;
+                    currentMeshGroup.rotation.x += deltaY * 0.008;
+                    previousMousePosition = { x: e.clientX, y: e.clientY };
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                if (!isDragging) {
+                    currentMeshGroup.rotation.y += 0.003;
+                    currentMeshGroup.rotation.x += 0.001;
+                }
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        function build3DModel(shape) {
+            while (currentMeshGroup.children.length > 0) {
+                currentMeshGroup.remove(currentMeshGroup.children[0]);
+            }
+
+            const goldMat = new THREE.MeshStandardMaterial({
+                color: 0xD4AF37,
+                metalness: 0.9,
+                roughness: 0.2
+            });
+
+            const steelMat = new THREE.MeshStandardMaterial({
+                color: 0x94a3b8,
+                metalness: 0.95,
+                roughness: 0.15
+            });
+
+            if (shape === 'beam') {
+                const webGeo = new THREE.BoxGeometry(0.5, 8, 12);
+                const flangeTopGeo = new THREE.BoxGeometry(5, 0.6, 12);
+                const flangeBotGeo = new THREE.BoxGeometry(5, 0.6, 12);
+
+                const web = new THREE.Mesh(webGeo, steelMat);
+                const flangeTop = new THREE.Mesh(flangeTopGeo, goldMat);
+                flangeTop.position.y = 4;
+                const flangeBot = new THREE.Mesh(flangeBotGeo, goldMat);
+                flangeBot.position.y = -4;
+
+                const beam = new THREE.Group();
+                beam.add(web);
+                beam.add(flangeTop);
+                beam.add(flangeBot);
+                beam.rotation.x = 0.4;
+                beam.rotation.y = 0.7;
+                currentMeshGroup.add(beam);
+
+            } else if (shape === 'rebar') {
+                const rebarGroup = new THREE.Group();
+                for (let i = 0; i < 9; i++) {
+                    const cylGeo = new THREE.CylinderGeometry(0.35, 0.35, 14, 24);
+                    const mat = (i % 2 === 0) ? goldMat : steelMat;
+                    const cyl = new THREE.Mesh(cylGeo, mat);
+                    const row = Math.floor(i / 3) - 1;
+                    const col = (i % 3) - 1;
+                    cyl.position.set(col * 1.3, row * 1.3, 0);
+                    rebarGroup.add(cyl);
+                }
+                rebarGroup.rotation.z = 0.8;
+                rebarGroup.rotation.x = 0.5;
+                currentMeshGroup.add(rebarGroup);
+
+            } else if (shape === 'tube') {
+                const tubeGeo = new THREE.CylinderGeometry(3.5, 3.5, 12, 32, 1, true);
+                const innerGeo = new THREE.CylinderGeometry(3.2, 3.2, 12, 32, 1, true);
+                const outer = new THREE.Mesh(tubeGeo, goldMat);
+                const inner = new THREE.Mesh(innerGeo, steelMat);
+                const tubeGroup = new THREE.Group();
+                tubeGroup.add(outer);
+                tubeGroup.add(inner);
+                tubeGroup.rotation.x = 1.1;
+                currentMeshGroup.add(tubeGroup);
+
+            } else if (shape === 'coil') {
+                const torusGeo = new THREE.TorusGeometry(4.8, 1.4, 24, 80);
+                const torus = new THREE.Mesh(torusGeo, goldMat);
+                torus.rotation.x = 1.3;
+                currentMeshGroup.add(torus);
+            }
+        }
+
+        function switch3DGeometry(shape) {
+            activeShape = shape;
+            document.querySelectorAll('.geo-btn').forEach(btn => {
+                if (btn.getAttribute('data-geo') === shape) {
+                    btn.className = "geo-btn px-2 py-2 rounded-lg bg-gold-500 text-black font-bold transition-all";
+                } else {
+                    btn.className = "geo-btn px-2 py-2 rounded-lg bg-dark-800 text-slate-300 hover:text-white font-bold transition-all";
+                }
+            });
+            build3DModel(shape);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderBranchesList(allBranchesData);
+            calculateSteelWeight();
+            initHero3D();
+        });
+    </script>
+</body>
+</html>
